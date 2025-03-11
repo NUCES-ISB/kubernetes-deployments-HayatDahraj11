@@ -15,7 +15,6 @@ spec:
       containers:
         - name: flask
           image: flask-app:latest
-          imagePullPolicy: Always
           ports:
             - containerPort: 5000
           env:
@@ -24,3 +23,17 @@ spec:
                 secretKeyRef:
                   name: postgres-secret
                   key: password
+
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: flask-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: flask-deployment
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 50
