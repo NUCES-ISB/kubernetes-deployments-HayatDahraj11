@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-service
+spec:
+  selector:
+    app: flask
+  ports:
+    - protocol: TCP
+      port: 80         # The port you want to expose to the outside world
+      targetPort: 5000  # The internal port where Flask is running inside the pod
+  type: ClusterIP       # This exposes the service internally within the cluster
